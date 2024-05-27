@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    -借用仪器历史
+{% endblock %}
+
+{% block css %}
+    {% static 'css/borrowHistory.css' %}
+{% endblock %}
+{% block main_block %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        {% if successInfo %}
+            <div class="text-center welcomeSlogan"><strong>{{ successInfo }}</strong></div>
+        {% elif failedInfo %}
+            <div class="text-center welcomeSlogan"><strong>{{ failedInfo }}</strong></div>
+        {% else %}
+            <div class="text-center welcomeSlogan"><strong>欢迎查看借用仪器历史记录</strong></div>
+        {% endif %}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="col-md-12">
+        <div id="table-responsive">
+            <table class="table table-hover">
+                <thead class="thead-light">
+                <tr>
+                    <th scope="col">序号</th>
+                    <th scope="col">仪器</th>
+                    <th scope="col">仪器借用数量</th>
+                    <th scope="col">使用时间</th>
+                    <th scope="col">归还时间</th>
+                    <th scope="col">操作</th>
+                </tr>
+                </thead>
+
+                <tbody class="no_underline">
+                {% if InstrumentList %}
+                    {% for instrument,borrowInfo,borrowTime in InstrumentList %}
+                        <tr class="table">
+                            <th class="text-dark" scope="row">{{ forloop.counter }}</th>
+                            <td class="text-dark">{{ borrowInfo.instrument }}</td>
+                            <td class="text-dark">{{ borrowInfo.ins_boNum }}</td>
+                            <td class="text-dark">{{ borrowInfo.ins_boDate }}</td>
+                            <td class="text-dark">
+                                {% if borrowInfo.ins_tuData == "暂未归还" %}
+                                    <span style="color: red">暂未归还</span>
+                                {% else %}
+                                    <span>{{ borrowInfo.ins_tuData }}</span>
+                                {% endif %}
+                            </td>
+                            <td class="text-dark">
+                                {% if borrowInfo.ins_tuData == "暂未归还" %}
+                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                            data-target="#myModal{{ borrowInfo.id }}" id="addStudent">点击归还
+                                    </button>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="myModal{{ borrowInfo.id }}" tabindex="-1" role="dialog"
+                                         aria-labelledby="myModal{{ borrowInfo.id }}Label"
+                                         aria-hidden="true">
+                                        <div class="modal-dialog" role="document" id="stuadd_modal">
+                                            <div class="modal-content">
+
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="myModal{{ borrowInfo.id }}Label">
+                                                        请确认归还信息</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+
+                                                <div class="modal-body">
+                                                    确认要归还&nbsp;<strong>{{ borrowInfo.instrument }}&nbsp;</strong>吗？
+                                                    <br>
+                                                    <form action="{% url 'Lab:ins_addAndTu' borrowInfo.id %}"
+                                                          method="post">
+                                                        {% csrf_token %}
+                                                        <div class="form-group">
+                                                            <label for="id_insTurnedNum"
+                                                                   class="col-sm-4 control-label">归还数量：</label>
+                                                            <div class="col-sm-8">
+                                                                <input type="text" class="form-control"
+                                                                       name="insTurnedNum"
+                                                                       id="id_insTurnedNum" required
+                                                                       oninput="value=value.replace(/[^\d]/g,'')"
+                                                                       placeholder="归还仪器数量">
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" class="btn btn-primary">确认</button>
+                                                            <button type="button" class="btn btn-secondary"
+                                                                    data-dismiss="modal">取消
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <button type="button" class="btn btn-success btn-sm" disabled>无需归还 </button>
+                                {% endif %}
+
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

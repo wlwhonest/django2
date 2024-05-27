@@ -1,0 +1,143 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>系统预警</title>
+    <script src="{% static 'js/echarts.min.js' %}" charset="utf-8"></script>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<h2 style="text-align: center"> 系统预警可视化 </h2><hr>
+<div class="col-md-12 col-xs-12 " id="main" style="width: 80%;height:400px;float:left;">
+</div>
+<script type="text/javascript">
+    var chartDom = document.getElementById('main');
+    var myChart = echarts.init(chartDom);
+    var option;
+
+    setTimeout(function () {
+        option = {
+            legend: {},
+            tooltip: {
+                trigger: 'axis',
+                showContent: false
+            },
+            dataset: {
+                source:{{ result_x|safe }}
+            },
+            xAxis: {type: 'category'},
+            yAxis: {gridIndex: 0},
+            grid: {top: '55%'},
+            series: [
+                {
+                    type: 'line',
+                    smooth: true,
+                    seriesLayoutBy: 'row',
+                    emphasis: {focus: 'series'}
+                },
+                {
+                    type: 'line',
+                    smooth: true,
+                    seriesLayoutBy: 'row',
+                    emphasis: {focus: 'series'}
+                },
+                {
+                    type: 'line',
+                    smooth: true,
+                    seriesLayoutBy: 'row',
+                    emphasis: {focus: 'series'}
+                },
+                {
+                    type: 'line',
+                    smooth: true,
+                    seriesLayoutBy: 'row',
+                    emphasis: {focus: 'series'}
+                },
+                {
+                    type: 'pie',
+                    id: 'pie',
+                    radius: '30%',
+                    center: ['50%', '25%'],
+                    emphasis: {
+                        focus: 'self'
+                    },
+                    label: {
+                        formatter: '{b}: {@2012} ({d}%)'
+                    },
+                    encode: {
+                        itemName: '药品',
+                        value: '2012',
+                        tooltip: '2012'
+                    }
+                }
+            ]
+        };
+        myChart.on('updateAxisPointer', function (event) {
+            const xAxisInfo = event.axesInfo[0];
+            if (xAxisInfo) {
+                const dimension = xAxisInfo.value + 1;
+                myChart.setOption({
+                    series: {
+                        id: 'pie',
+                        label: {
+                            formatter: '{b}: {@[' + dimension + ']} ({d}%)'
+                        },
+                        encode: {
+                            value: dimension,
+                            tooltip: dimension
+                        }
+                    }
+                });
+            }
+        });
+        myChart.setOption(option);
+    });
+    option && myChart.setOption(option);
+</script>
+
+<div class="col-md-4 " id=" data" style="width:20%;height:400px;float:right;">
+    <table class="table">
+        <caption>预警信息</caption>
+        <thead>
+        <tr>
+            <th>产品</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for k, v in fianl_list.items %}
+            {% if  v == '安全' %}
+                <tr class="success">
+                    <td>{{ k }}</td>
+                    <td>安全</td>
+                </tr>
+            {% elif  v == '风险' %}
+                <tr class="warning">
+                    <td>{{ k }}</td>
+                    <td>风险</td>
+                </tr>
+            {% elif  v == '危险' %}
+                <tr class="danger">
+                    <td>{{ k }} </td>
+                    <td>危险</td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<footer class="panel-footer" style="width: 100%; overflow: hidden;">
+    <div class="container">
+        <hr style="border: 1px  solid #000000;">
+        <div class="row" style="text-align: center;">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <span>Copyright(C). Create By BHML 2023, All Rights Reserved</span>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

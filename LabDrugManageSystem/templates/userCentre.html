@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    -用户中心
+{% endblock %}
+
+{% block css %}
+    {% static 'css/userCentre.css' %}
+{% endblock %}
+{% block main_block %}
+    {% if changeForm.errors %}
+        <div class="alert alert-success" role="alert">
+            <h4 class="alert-heading">修改信息中出现问了哦！</h4>
+            <p>{{ changeForm.errors }}</p>
+            <hr>
+            <p class="mb-0">如要修改请注意以上的错误：</p>
+        </div>
+    {% endif %}
+    <div>
+        <form class="form-group" action="" method="POST" style="width: 40%;margin-left: 30%;margin-top: 3%">
+            <h2>修改个人信息</h2>
+            <hr>
+            {% csrf_token %}
+            <div class="form-group row">
+                <label for="id_username" class="col-sm-3 col-form-label">用户名:</label>
+                <div class="col-sm-9">
+                    <input type="text" readonly class="form-control-plaintext" id="staticUsername"
+                           value="{{ currentUser.username }}">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="id_nickyName" class="col-sm-3 col-form-label">昵称:</label>
+                <div class="col-sm-9">
+                    <input class="form-control" type="text" name="nickyName" maxlength="50" id="id_nickyName"
+                           placeholder="{{ currentUser.commonuser.nickyName }}">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="id_cate" class="col-sm-3 col-form-label">用户类型:</label>
+                <div class="col-sm-9">
+                    {% if currentUser.commonuser %}
+                        <input type="text" readonly class="form-control-plaintext" id="staticCate"
+                               value="学生">
+                    {% else %}
+                        <input type="text" readonly class="form-control-plaintext" id="staticCate"
+                               value="教师">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="id_faculty" class="col-sm-3 col-form-label">院系:</label>
+                <div class="col-sm-9">
+                    <input type="text" readonly class="form-control-plaintext" id="staticFaculty"
+                           value="{{ currentUser.commonuser.faculty }}">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="id_email" class="col-sm-3 col-form-label">邮箱:</label>
+                <div class="col-sm-9">
+                    <input class="form-control" type="email" name="email" maxlength="254" id="id_email"
+                           placeholder="{{ currentUser.email }}">
+                </div>
+            </div>
+            <button class="btn btn-primary" type="submit" style="width: 100%">保存</button>
+        </form>
+    </div>
+
+{% endblock %}
