@@ -1,0 +1,28 @@
+﻿基于python+Django+Mysql的高校实验室药品分析管理系统项目实战
+
+项目需要安装pycharm专业版以及MySQL环境（环境搭建和破解可以看我的B站里《python环境配置》的视频里有讲解）
+	- 首先需要创建数据库数据库名字叫做 db_lab_drug
+	- 运行sql导入数据(建议使用，比较简单)或者也可以直接用迁移命令生成（视频有讲解）
+	- 需要安装一下下面的模块（如果运行提示有模块未安装，安装一下即可，命令同下，改一下模块名即可）
+
+项目需要安装 Django、PyMySQL及其附带的其他一些模块requirements.txt文件中有
+可以直接使用我配置好的虚拟环境，也可使用如下命令使用自己的python环境安装
+
+安装命令如下：
+	- pip install -i https://pypi.tuna.tsinghua.edu.cn/simple django（替换模块名）
+
+项目结构LabDrugManageSystem：
+	- lab 项目功能模块，实现项目功能
+	- LabDrugManageSystem 主模块，项目配置文件，主路由
+	- static 静态文件存放文件夹
+	- templates 前端模块文件存放文件夹
+	- venv 虚拟环境，自己配置的话可以删除
+	- media 存放上传的文件
+	- manage.py 项目管理文件，项目入口
+	- requirements.txt 项目所需的模块列表
+
+管理员账户：admin 123456
+学生账号：20230910 bhml2023 (这是我注册的，大家也可自行注册其他学生)
+
+注：其他问题请参看视频讲解，都有介绍，一定要认真看完哦！
+最后，感谢您的支持，祝您学习愉快！

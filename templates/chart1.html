@@ -1,0 +1,182 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chart1Test</title>
+    <script src="{% static 'js/echarts.min.js' %}" charset="utf-8"></script>
+</head>
+<body>
+<h2> 系统数据总览 </h2>
+
+<div class="col-md-6" id="main1" style="width: 50%;height:400px;float:left;"></div>
+<script type="text/javascript">
+    var chartDom = document.getElementById('main1');
+    var myChart;
+    var option;
+
+    if (myChart) {
+        myChart.dispose(); // 清空
+    }
+
+    myChart = echarts.init(chartDom);
+    option = {
+        title: {
+            text: '药品数据可视化'
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            }
+        },
+        legend: {},
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis: {
+            type: 'value',
+            boundaryGap: [0, 0.01],
+        },
+        yAxis: {
+            type: 'category',
+            data:{{ name_list|safe }}
+        },
+        series: [
+            {
+                name: '已使用量',
+                type: 'bar',
+                data: {{ used_list }}
+            },
+            {
+                name: '剩余量',
+                type: 'bar',
+                data: {{ now_list }}
+            }
+        ]
+    };
+    option && myChart.setOption(option);
+</script>
+
+{#chart2#}
+<div class="col-md-6" id="main2" style="width: 50%;height:400px;float:right;"></div>
+<script type="text/javascript">
+    var chartDom = document.getElementById('main2');
+    var myChart = echarts.init(chartDom);
+    var option;
+
+    option = {
+        title: {
+            text: '最近借用总次数情况',
+            subtext: ' 最近7天有借用情况'
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross'
+            }
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                saveAsImage: {}
+            }
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data:{{ bo_list|safe }}
+        },
+        yAxis: {
+            type: 'value',
+            axisLabel: {
+                formatter: '{value} 次'
+            },
+            axisPointer: {
+                snap: true
+            }
+        },
+        visualMap: {
+            show: false,
+            dimension: 0,
+            pieces: [
+                {
+                    lte: 6,
+                    color: 'green'
+                },
+                {
+                    gt: 6,
+                    lte: 8,
+                    color: 'red'
+                },
+                {
+                    gt: 8,
+                    lte: 14,
+                    color: 'green'
+                },
+                {
+                    gt: 14,
+                    lte: 17,
+                    color: 'red'
+                },
+                {
+                    gt: 17,
+                    color: 'green'
+                }
+            ]
+        },
+        series: [
+            {
+                name: '次数',
+                type: 'line',
+                smooth: true,
+                // prettier-ignore
+                {#data: [300, 280, 250, 260, 270, 300, 550, 500, 400, 390, 380, 390, 400, 500, 600, 750, 800, 700, 600, 400],#}
+                data:{{ count_list }},
+                markArea: {
+                    itemStyle: {
+                        color: 'rgba(255, 173, 177, 0.4)'
+                    },
+                    data: [
+                        [
+                            {
+                                name: 'Morning Peak',
+                                xAxis: '07:30'
+                            },
+                            {
+                                xAxis: '10:00'
+                            }
+                        ],
+                        [
+                            {
+                                name: 'Evening Peak',
+                                xAxis: '17:30'
+                            },
+                            {
+                                xAxis: '21:15'
+                            }
+                        ]
+                    ]
+                }
+            }
+        ]
+    };
+    option && myChart.setOption(option);
+</script>
+
+<footer class="panel-footer" style="width: 100%; overflow: hidden;">
+    <div class="container">
+
+        <hr style="border: 1px  solid #000000;">
+        <div class="row" style="text-align: center;">
+            <div class="col-sm-3 col-md-3 col-lg-3">
+                <span>Copyright(C). Create By BHML 2023, All Rights Reserved</span>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

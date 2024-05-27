@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} - 用户信息
+{% endblock %}
+
+{% block css %}
+    {% static 'css/usr_info.css' %}
+{% endblock %}
+
+{% block main_block %}
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <section id="content" class="clearfix">
+        <section class="light-buttons">
+            <div class="right">
+                <h1 class="dark-header">个人信息</h1>
+                <a href="{% url 'Lab:userCentre' %}" class="button lightbg-blue clearfix"><span>个人信息</span>
+                    <div class="icon">
+                        <div class="arrow"></div>
+                    </div>
+                </a><a href="{% url 'Lab:borrowHistory' %}" class="button lightbg-pink clearfix"><span>借阅药品历史</span>
+                <div class="icon">
+                    <div class="arrow"></div>
+                </div>
+            </a> <a href="{% url 'Lab:borrowInsHistory' %}" class="button lightbg-green clearfix"><span>借阅仪器历史</span>
+                <div class="icon">
+                    <div class="arrow"></div>
+                </div>
+            </a><a href="{% url 'Lab:changePassword' %}" class="button lightbg-orange clearfix"><span>修改密码</span>
+                <div class="icon">
+                    <div class="arrow"></div>
+                </div>
+            </a>
+            </div>
+        </section>
+    </section>
+{% endblock %}
