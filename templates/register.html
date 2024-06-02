@@ -26,7 +26,7 @@
             var username = document.getElementById("id_username");
             var usernametext = username.value;
             //验证字符串符合规则
-            var patt = /^\d{12}$/;
+            var patt = /^\d{8}$/;
             /*test方法用于测试字符串是否匹配规则*/
             if (patt.test(usernametext)) {
 
@@ -40,9 +40,9 @@
         {% csrf_token %}
         <p>
             <label for="id_username">学号:</label>
-            <input class="form-control" type="text" name="username" maxlength="12" autofocus required
+            <input class="form-control" type="text" name="username" maxlength="8" autofocus required
                    id="id_username" value="">
-            <small class="form-text text-muted">必填! 12位学号</small>
+            <small class="form-text text-muted">必填! 8位学号</small>
         </p>
         <p>
             <label for="id_nickyName">昵称:</label>

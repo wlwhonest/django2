@@ -203,7 +203,7 @@ def medicineDetail(request, medicineId):
 
 # 借用药品
 @login_required(login_url='Lab:login')
-def subAndBo(request,medicine_id):
+def subAndBo(request, medicine_id):
     if request.method == 'POST':
         thisLab = request.POST.get('lab')  # 借用的实验室
         thisNum = int(request.POST.get('medicineUsedNum'))  # 药品编号
@@ -380,7 +380,7 @@ def chart1(request):
         'bo_list': bo_list,  # 取用时间
         'count_list': count_list  # 取用次数列表
     }
-    return render(request, 'chart1.html', content)
+    return render(request, 'admin/chart1.html', content)
 
 
 # 可视化2：近一月取用情况图表

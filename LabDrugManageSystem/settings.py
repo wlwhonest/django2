@@ -1,8 +1,7 @@
 import os
-from pathlib import Path
 
 # 项目路径
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # 项目秘钥
 SECRET_KEY = '2023-k0x$88f=-m=8888tv)vasdffff^e=sdfsad@ch#&r+bhml'
@@ -119,7 +118,7 @@ SIMPLEUI_HOME_INFO = False
 # SIMPLEUI_HOME_ACTION = False
 
 # 自定义SIMPLEUI的Logo
-# SIMPLEUI_LOGO = 'https://avatars2.githubusercontent.com/u/13655483?s=60&v=4'
+SIMPLEUI_LOGO = 'https://avatars2.githubusercontent.com/u/13655483?s=60&v=4'
 
 # 登录页粒子动画，默认开启，False关闭
 # SIMPLEUI_LOGIN_PARTICLES = False
@@ -136,22 +135,22 @@ SIMPLEUI_CONFIG = {
         'icon': 'fas fa-code',
         'models': [{
             'name': '总览',
-            'url': 'chart1',
+            'url': '/admin/chart1/',
             'icon': 'fa fa-bars'
         }, {
             'name': '近一月',
-            'url': 'chart2',
+            'url': '/chart2/',
             'icon': 'fa fa-graduation-cap'
         }, {
             'name': '预警页面',
-            'url': 'predict',
+            'url': 'predict/',
             'icon': 'fa fa-exclamation-circle'
         }]
     }]
 }
 
 # 是否显示默认图标，默认=True
-SIMPLEUI_DEFAULT_ICON = False
+# SIMPLEUI_DEFAULT_ICON = False
 
 # 图标设置，图标参考：
 # SIMPLEUI_ICON = {
@@ -161,6 +160,6 @@ SIMPLEUI_DEFAULT_ICON = False
 
 # 指定simpleui 是否以脱机模式加载静态资源，为True的时候将默认从本地读取所有资源，即使没有联网一样可以渲染界面。适合内网项目
 # 不填该项或者为False的时候，默认从第三方的cdn获取
-SIMPLEUI_STATIC_OFFLINE = True
+# SIMPLEUI_STATIC_OFFLINE = True
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
